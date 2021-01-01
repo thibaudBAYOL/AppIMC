@@ -25,6 +25,9 @@ public class MyFiles {
     String lireSimple(String n){
         return lireFile(ouvrireFichier(n, inOut));
     }
+    void ecrireSimple(String n,String cont){
+         ecrireFile(ouvrireFichier(n, inOut),cont);
+    }
 
     boolean existe(String name){
         return ouvrireFichier(name,inOut) != null ;
@@ -36,7 +39,7 @@ public class MyFiles {
         File director = null ;
         if( sloc == true ) {
 
-            director = new File("/storage/self/primary/GPSfileV2");
+            director = new File("/storage/self/primary/IMC");
             if (!director.exists()) {
                 director.mkdir();
                 System.out.println("/////////////////////////////////MKDIR ");
