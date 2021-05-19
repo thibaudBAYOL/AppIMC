@@ -30,8 +30,16 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     String cont = "";
     ImageView imageView;
 
+
+    Spinner spinnerF;
+
+    ArrayList<String> future;
+    ArrayAdapter<String> adaptfuture;
+
     Spinner spinner;
     EditText txtText;
+
+
     ArrayList<String> users;
     ArrayAdapter<String> adapt;
 
@@ -92,6 +100,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             @Override
             public void onClick(View view) {
                 controle();
+                voir_le_future();
             }
         });
 
@@ -113,8 +122,67 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             }
         });
 
+
+
+
+
+
     }
 
+    private String poit_pour_imc(Float imc,Float taille){
+        return  ""+(imc*(taille*taille));
+    }
+
+    private void voir_le_future(){
+
+        future = new ArrayList<String>();
+        String ss = taille.getText().toString();
+        Float t = Float.parseFloat(ss);
+        //imc = p/t^2
+        // p = imc*(t^2)
+
+
+        //if(r<18.5){
+
+            ss="maigre";
+        String moin=poit_pour_imc((float)18.5,t);
+        future.add("X<"+moin+"=>"+ss);
+
+        //}else if(r>=18.5 && r<25){
+
+            ss="normal";
+
+        String plus=poit_pour_imc((float)25,t);
+        future.add(moin+"=>X<"+plus+"=>"+ss);
+        moin = plus;
+
+        //}else if(r>=25 && r<30){
+
+            ss="surpoids";
+        plus=poit_pour_imc((float)30,t);
+        future.add(moin+"=>X<"+plus+"=>"+ss);
+        moin = plus;
+
+        //}else if(r>=30 && r<35){
+            ss="obésité modérée";
+        plus=poit_pour_imc((float)35,t);
+        future.add(moin+"=>X<"+plus+"=>"+ss);
+        moin = plus;
+        //}else if(r>=35 && r<40){
+            ss="obésité sévère";
+        plus=poit_pour_imc((float)40,t);
+        future.add(moin+"=>X<"+plus+"=>"+ss);
+        moin = plus;
+        //}else if(r>=40){
+            ss="obésité morbide";
+        future.add(moin+">X=>"+ss);
+        //}
+
+        spinnerF = (Spinner) findViewById(R.id.spinnerF);
+        adaptfuture = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_dropdown_item_1line, future);
+        //passer l'adapteur dans le Spinner
+        spinnerF.setAdapter(adaptfuture);
+    }
 
     private void last_user(String name){
 
@@ -144,6 +212,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     pois.setText(tab[1]);
                     if(tab.length>=3){
                         reponce.setText("IMC:"+tab[2]);
+                        voir_le_future();
                     }else {
                         controle();
                     }
@@ -175,8 +244,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     }
                     //time?
                     if(tab.length>=2){
-                        hist.add("p="+tab[0]+" t="+tab[1]);
-                        hist.add("imc="+imc+" T="+time);
+                        hist.add("t="+tab[0]+" p="+tab[1]+"imc="+imc);
+                        hist.add("time="+time);
 
                     }else{
                         // hist.add(s);
